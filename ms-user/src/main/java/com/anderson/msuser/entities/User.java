@@ -1,9 +1,11 @@
 package com.anderson.msuser.entities;
 
+import com.anderson.msuser.dtos.RegisterDTO;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +34,12 @@ public class User implements UserDetails {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public User(RegisterDTO data) {
+        this.name = data.name();
+        this.email = data.email();
+        this.password = new BCryptPasswordEncoder().encode(data.password());
     }
 
     public UUID getId() {
